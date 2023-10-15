@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Tic Tac Toe</title>
+
+  <style>
+
+    .board {
+
+      display: grid;
+
+      grid-template-columns: repeat(3, 100px);
+
+      grid-gap: 5px;
+
+    }
+
+    .cell {
+
+      width: 100px;
+
+      height: 100px;
+
+      text-align: center;
+
+      font-size: 24px;
+
+      background-color: #ccc;
+
+      cursor: pointer;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>Tic Tac Toe</h1>
+
+  <div class="board" id="board">
+
+    <!-- Create the grid cells dynamically using JavaScript -->
+
+  </div>
+
+  <p id="message"></p>
+
+  <script>
+
+    const board = document.getElementById("board");
+
+    const message = document.getElementById("message");
+
+    const cells = [];
+
+    let currentPlayer = "X";
+
+    let gameOver = false;
+
+    // Create the Tic Tac Toe grid
+
+    for (let i = 0; i < 3; i++) {
+
+      for (let j = 0; j < 3; j++) {
+
+        const cell = document.createElement("div");
+
+        cell.classList.add("cell");
+
+        cell.dataset.row = i;
+
+        cell.dataset.col = j;
+
+        cell.addEventListener("click", handleClick);
+
+        cells.push(cell);
+
+        board.appendChild(cell);
+
+      }
+
+    }
+
+    function checkWinner() {
+
+      const winPatterns = [
+
+        [0, 1, 2],
+
+        [3, 4, 5],
+
+        [6, 7, 8],
+
+        [0, 3, 6],
+
+        [1, 4, 7],
+
+        [2, 5, 8],
+
+        [0, 4, 8],
+
+        [2, 4, 6],
+
+      ];
+
+      for (const pattern of winPatterns) {
+
+        const [a, b, c] = pattern;
+
+        if (
+
+          cells[a].textContent &&
+
+          cells[a].textContent === cells[b].textContent &&
+
+          cells[a].textContent === cells[c].textContent
+
+        ) {
+
+          cells[a].style.backgroundColor = "green";
+
+          cells[b].style.backgroundColor = "green";
+
+          cells[c].style.backgroundColor = "green";
+
+          message.textContent = `${currentPlayer} wins!`;
+
+          gameOver = true;
+
+          return;
+
+        }
+
+      }
+
+      if (cells.every((cell) => cell.textContent)) {
+
+        message.textContent = "It's a draw!";
+
+        gameOver = true;
+
+      }
+
+    }
+
+    function handleClick() {
+
+      if (gameOver || this.textContent) return;
+
+      this.textContent = currentPlayer;
+
+      checkWinner();
+
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+
+    }
+
+  </script>
+
+</body>
+
+</html>
